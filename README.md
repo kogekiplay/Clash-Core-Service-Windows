@@ -18,6 +18,6 @@ Clash首次启动会下载相关资源文件到./resources
 如果下载不动请配置好geox-url
 我给出的例子已经配置好，所以不用动
 
-./dashboard目录是在线面板，启动clash后打开http://127.0.0.1:9090/ui即可切换节点
+./dashboard目录是在线面板，启动clash后打开 http://127.0.0.1:9090/ui即可切换节点
 
 dashboard资源来自 https://github.com/kogekiplay/Yacd-meta/tree/gh-pages
