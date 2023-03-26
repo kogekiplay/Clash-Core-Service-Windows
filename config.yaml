@@ -21,9 +21,9 @@ tcp-concurrent: false
 find-process-mode: off
 global-client-fingerprint: chrome
 geox-url:
-  mmdb: "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb"
-  geoip: "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat"
-  geosite: "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat"
+  mmdb: "https://ghproxy.wushidi.gay/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country.mmdb"
+  geoip: "https://ghproxy.wushidi.gay/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat"
+  geosite: "https://ghproxy.wushidi.gay/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
 
 # Meta 域名嗅探
 sniffer:
