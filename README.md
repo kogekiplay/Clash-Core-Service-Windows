@@ -11,6 +11,7 @@
 
 首先写好你的clash配置，重命名为config.yaml放到当前目录
 或者打开更新配置文件.bat，输入订阅链接
+在windows中tun模式需要通过防火墙，所以先打开clash核心防火墙打开.bat并允许
 然后打开Clash.Meta服务管理.bat根据提示操作
 
 #### Tips:
