@@ -1,5 +1,5 @@
 #Clash Meta 模板
-#时间：2023.3.24
+#时间：2023.4.2
 #只需要在149,154,159行填入机场订阅链接即可，如果有更多机场自行添加
 #如果修改了名字记得把其他地方的名字也一并修改
 #Tips:请自行修改183行开始的地区正则过滤
@@ -21,13 +21,13 @@ tcp-concurrent: false
 find-process-mode: off
 global-client-fingerprint: chrome
 geox-url:
-  mmdb: "https://ghproxy.wushidi.gay/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country.mmdb"
-  geoip: "https://ghproxy.wushidi.gay/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat"
-  geosite: "https://ghproxy.wushidi.gay/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
+  mmdb: "https://ghproxy.wushidi.gay/https://github.com/kogekiplay/geoip/releases/download/latest/Country.mmdb"
+  geoip: "https://ghproxy.wushidi.gay/https://github.com/kogekiplay/clash-rules-dat/releases/download/latest/geoip.dat"
+  geosite: "https://ghproxy.wushidi.gay/https://github.com/kogekiplay/clash-rules-dat/releases/download/latest/geosite.dat"
 
 # Meta 域名嗅探
 sniffer:
-  enable: false
+  enable: true
   sniff:
       TLS:
         ports: [443, 8443]
@@ -107,11 +107,6 @@ p: &p
     enable: true
     url: http://cp.cloudflare.com/
     interval: 300
-
-c: &c
-  type: http
-  behavior: classical
-  interval: 86400
 
 #改下面代理提供商的名字的话，这里面的名字也需要一并修改
 u: &u
@@ -229,40 +224,21 @@ proxy-groups:
     proxies:
       - REJECT
 
-rule-providers:
-
-  Chat:
-    <<: *c
-    path: ./rule_providers/Chat.yaml
-    type: http
-    url: "https://ghproxy.wushidi.gay/https://raw.githubusercontent.com/kogekiplay/clash_rules/main/Chat.yaml"
-
-  Stream:
-    <<: *c
-    path: ./rule_providers/Stream.yaml
-    type: http
-    url: "https://ghproxy.wushidi.gay/https://raw.githubusercontent.com/kogekiplay/clash_rules/main/Stream.yaml"
-
-  Proxy:
-    <<: *c
-    path: ./rule_providers/Proxy.yaml
-    type: http
-    url: "https://ghproxy.wushidi.gay/https://raw.githubusercontent.com/kogekiplay/clash_rules/main/Proxy.yaml"
-  
-  Direct:
-    <<: *c
-    path: ./rule_providers/Direct.yaml
-    type: http
-    url: "https://ghproxy.wushidi.gay/https://raw.githubusercontent.com/kogekiplay/clash_rules/main/Direct.yaml"
-
 rules:
-  - RULE-SET,Chat,💭 Chat
-  - RULE-SET,Stream,🏙️ Stream
-  - RULE-SET,Proxy,🏳️‍⚧️ Proxy
+  - GEOSITE,telegram,💭 Chat
+  - GEOSITE,discord,💭 Chat
+  - GEOSITE,youtube,🏙️ Stream
+  - GEOSITE,netflix,🏙️ Stream
+  - GEOSITE,bahamut,🏙️ Stream
+  - GEOSITE,bing,🏳️‍⚧️ Proxy
   - GEOSITE,category-media,🏳️‍⚧️ Proxy
-  - RULE-SET,Direct,DIRECT
-  - GEOIP,private,DIRECT,no-resolve
+  - GEOIP,telegram,💭 Chat
+  - GEOIP,youtube,🏙️ Stream
+  - GEOIP,netflix,🏙️ Stream
+  - GEOSITE,onedrive,DIRECT
+  - GEOSITE,steam@cn,DIRECT
   - GEOSITE,private,DIRECT
+  - GEOIP,private,DIRECT,no-resolve
   - GEOSITE,cn,DIRECT
   - GEOIP,CN,DIRECT
   - MATCH,🏳️‍⚧️ Proxy
