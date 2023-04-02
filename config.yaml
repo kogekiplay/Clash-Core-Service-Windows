@@ -239,6 +239,7 @@ rules:
   - GEOSITE,steam@cn,DIRECT
   - GEOSITE,private,DIRECT
   - GEOIP,private,DIRECT,no-resolve
+  - GEOSITE,kogeki-cn,DIRECT
   - GEOSITE,cn,DIRECT
   - GEOIP,CN,DIRECT
   - MATCH,🏳️‍⚧️ Proxy
