@@ -1,0 +1,4 @@
+[submodule "dashboard"]
+	path = dashboard
+	url = https://github.com/kogekiplay/Yacd-meta.git
+	branch = gh-pages
