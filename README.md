@@ -9,12 +9,10 @@
 
 如果报错，请安装curl
 
-首先写好你的clash配置，重命名为config.yaml放到当前目录
-或者打开更新配置文件.bat，输入订阅链接
-
-在windows中tun模式需要通过防火墙，所以先打开clash核心防火墙打开.bat并允许
-
-然后打开Clash.Meta服务管理.bat根据提示操作
+1. 首先执行 `git clone --recursive https://github.com/kogekiplay/Clash-Core-Service-Windows`
+2. 写好你的clash配置，重命名为config.yaml放到当前目录或者打开更新配置文件.bat，输入订阅链接
+2. 在windows中tun模式需要通过防火墙，所以先打开clash核心防火墙打开.bat并允许
+4. 打开Clash.Meta服务管理.bat根据提示操作
 
 #### Tips:
 Clash首次启动会下载相关资源文件到./resources
