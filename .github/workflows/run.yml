@@ -7,16 +7,33 @@ on:
   workflow_dispatch:
 
 jobs:
-  update_sdk:
+  sync:
+    name: 'Submodules Sync'
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
 
-      - name: Update submodules
-        run: |
-          git submodule update --init --remote
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git commit -am "Update SDK" || exit 0
-          git push || exit 0          
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.CI_TOKEN }}
+        submodules: true
+
+    # Update references
+    - name: Git Sumbodule Update
+      run: |
+        rm -rf rm -rf .\dashboard\
+        git pull --recurse-submodules
+        git submodule update --remote --recursive        
+
+    - name: Commit update
+      run: |
+        git config --global user.name 'Git bot'
+        git config --global user.email 'bot@noreply.github.com'
+        git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+        git commit -am "Auto Sync Yacd" && git push || echo "No changes to commit"
