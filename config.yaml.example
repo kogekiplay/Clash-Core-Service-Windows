@@ -1,8 +1,8 @@
 #Clash Meta 模板
-#时间：2023.4.2
-#只需要在149,154,159行填入机场订阅链接即可，如果有更多机场自行添加
+#时间：2023.4.18
+#只需要在145行开始填入机场订阅链接即可，如果有更多机场自行添加
 #如果修改了名字记得把其他地方的名字也一并修改
-#Tips:请自行修改183行开始的地区正则过滤
+#Tips:请自行修改地区策略组的正则过滤
 #参考：
 #香港：(?i)港|hk|hongkong|kong kong|🇭🇰
 #台湾：(?i)台|tw|taiwan
@@ -23,11 +23,11 @@ global-client-fingerprint: chrome
 geox-url:
   mmdb: "https://ghproxy.wushidi.gay/https://github.com/kogekiplay/geoip/releases/download/latest/Country.mmdb"
   geoip: "https://ghproxy.wushidi.gay/https://github.com/kogekiplay/clash-rules-dat/releases/download/latest/geoip.dat"
-  geosite: "https://ghproxy.wushidi.gay/https://github.com/kogekiplay/clash-rules-dat/releases/download/latest/geosite.dat"
+  geosite: "https://ghproxy.wushidi.gay/https://github.com/kogekiplay/clash-rules-dat/releases/download/latest/geosite-lite.dat"
 
 # Meta 域名嗅探
 sniffer:
-  enable: true
+  enable: false
   sniff:
       TLS:
         ports: [443, 8443]
@@ -48,7 +48,6 @@ sniffer:
 hosts:
   'time.android.com': 203.107.6.88
   'time.facebook.com': 203.107.6.88
-  'localhost': 127.0.0.1
 
 # Tun Mode
 tun:
@@ -87,16 +86,15 @@ dns:
     - '+.lan'
   default-nameserver:
     - 223.5.5.5
-    - 127.0.0.1:53
   nameserver:
-    - 'https://8.8.8.8/dns-query#🔬 Dns Proxy'
-    - 'https://1.1.1.1/dns-query#🔬 Dns Proxy'
+    - 'tls://8.8.4.4#🔬 Dns Proxy'
+    - 'tls://1.0.0.1#🔬 Dns Proxy'
   proxy-server-nameserver:
-    - https://dns.alidns.com/dns-query
+    - tls://223.5.5.5
   nameserver-policy:
-    "geosite:cn,private":
-    - https://doh.pub/dns-query
-    - https://dns.alidns.com/dns-query
+    "geosite:cn,lan":
+    - tls://223.5.5.5
+    - tls://1.12.12.12
 
 proxies:
 #锚点
@@ -106,7 +104,7 @@ p: &p
   health-check:
     enable: true
     url: http://cp.cloudflare.com/
-    interval: 300
+    interval: 600
 
 #改下面代理提供商的名字的话，这里面的名字也需要一并修改
 u: &u
@@ -115,13 +113,16 @@ u: &u
     - Nexitally
     - Other
     - 自建
+    - WARP
+    - BESTVPN
 
 nex: &nex
   type: url-test
   use:
     - Nexitally
+    - BESTVPN
   url: "https://cp.cloudflare.com/"
-  interval: 300
+  interval: 600
 
 pr: &pr
   type: select
@@ -154,6 +155,16 @@ proxy-providers:
       url: ""
       path: ./proxy_providers/3.yaml
 
+  WARP:
+      <<: *p
+      url: ""
+      path: ./proxy_providers/4.yaml
+
+  BESTVPN:
+      <<: *p
+      url: ""
+      path: ./proxy_providers/5.yaml
+
 proxy-groups:
 
   - name: 🏳️‍⚧️ Proxy
@@ -183,31 +194,31 @@ proxy-groups:
 
 #分隔，下面是地区分组
   - name: ✨ Auto
-    filter: "HK|TW|JP"
+    filter: "🇭🇰|🇨🇳|🇯🇵"
     <<: *nex
 
   - name: 🇭🇰 Hong Kong
-    filter: "HK"
+    filter: "🇭🇰|香港"
     <<: *nex
 
   - name: 🇨🇳 Taiwan
-    filter: "TW"
+    filter: "🇨🇳|台湾"
     <<: *nex
 
   - name: 🇯🇵 Japan
-    filter: "JP"
+    filter: "🇯🇵|日本"
     <<: *nex
 
   - name: 🇺🇸 United States
-    filter: "US"
+    filter: "🇺🇸|美国"
     <<: *nex
 
   - name: 🇸🇬 Singapore
-    filter: "SG"
+    filter: "🇸🇬|新加坡"
     <<: *nex
 
   - name: 🫧 Global Region
-    filter: "^(?!.*(?:HK|JP|TW|US|SG)).*"
+    filter: "^(?!.*(?:🇭🇰|🇨🇳|🇯🇵|🇺🇸|🇸🇬|香港|台湾|日本|美国|新加坡)).*"
     <<: *u
 
   - name: 🪄 Select
@@ -231,15 +242,16 @@ rules:
   - GEOSITE,netflix,🏙️ Stream
   - GEOSITE,bahamut,🏙️ Stream
   - GEOSITE,bing,🏳️‍⚧️ Proxy
-  - GEOSITE,category-media,🏳️‍⚧️ Proxy
-  - GEOIP,telegram,💭 Chat
+  - GEOSITE,kogeki-!cn,🏳️‍⚧️ Proxy
   - GEOIP,youtube,🏙️ Stream
   - GEOIP,netflix,🏙️ Stream
+  - GEOIP,telegram,💭 Chat
+  - GEOSITE,proxy,🏳️‍⚧️ Proxy
   - GEOSITE,onedrive,DIRECT
-  - GEOSITE,steam@cn,DIRECT
-  - GEOSITE,private,DIRECT
-  - GEOIP,private,DIRECT,no-resolve
+  - GEOSITE,steamcn,DIRECT
   - GEOSITE,kogeki-cn,DIRECT
+  - GEOSITE,lan,DIRECT
+  - GEOIP,private,DIRECT,no-resolve
   - GEOSITE,cn,DIRECT
   - GEOIP,CN,DIRECT
   - MATCH,🏳️‍⚧️ Proxy
